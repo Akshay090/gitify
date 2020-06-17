@@ -5,9 +5,10 @@ import {Check, ChevronDown, X, Loader} from 'react-feather';
 import Button from './Button';
 import './styles.scss';
 
-// function openWebPage(url: string): Promise<Tabs.Tab> {
-//   return browser.tabs.create({url});
-// }
+function openWebPage(url: string): Promise<Tabs.Tab> {
+  return browser.tabs.create({url});
+}
+
 axios.defaults.baseURL = 'http://localhost:5000';
 
 type TrueFalseNull = true | false | null;
@@ -144,7 +145,15 @@ const Popup: React.FC = () => {
     <section id="popup">
       <div className="heading">
         <img src="assets/icons/favicon-32.png" alt="" />
-        <img src="assets/icons/settings.svg" alt="" />
+        <img
+          src="assets/icons/settings.svg"
+          alt=""
+          className="options_icon"
+          role="presentation"
+          onClick={(): Promise<Tabs.Tab> => {
+            return openWebPage('options.html');
+          }}
+        />
       </div>
       <p className="message">Clone and open the repo in vs code</p>
       <div className="container">
@@ -157,7 +166,11 @@ const Popup: React.FC = () => {
             <Check style={{marginRight: '1rem'}} />
           ) : null}
           {apiList.gitClone.status === !SUCCESS_STATUS ? (
-            <X style={{marginRight: '1rem'}} color="Red" />
+            <X
+              style={{marginRight: '1rem'}}
+              color="Red"
+              onClick={(): void => console.log('gitClone err fxn')}
+            />
           ) : null}
         </Button>
         <Button
