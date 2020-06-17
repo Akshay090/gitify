@@ -121,14 +121,6 @@ module.exports = {
           'sass-loader', // Takes the Sass/SCSS file and compiles to the CSS
         ],
       },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'assets/[name].[ext]',
-          esModule: false,
-        },
-      },
     ],
   },
 
