@@ -60,7 +60,7 @@ const Popup: React.FC = () => {
       const domain = urlParts[2];
       const gitUserName = urlParts[3];
       const projectName = urlParts[4];
-      console.log(gitUserName, projectName);
+      // console.log(gitUserName, projectName);
 
       const queryObj = {
         Domain: domain,
@@ -69,20 +69,15 @@ const Popup: React.FC = () => {
         ProjectName: projectName,
       };
       setQuery(queryObj);
-      console.log('setQuery(queryObj)');
+      // console.log('setQuery(queryObj)');
     }
     return tabs[0].url;
   };
 
   useEffect(() => {
     const fetchData = async (): Promise<Function> => {
-      console.log(Object.keys(query), apiList, api, 'if stiff');
-      console.log(
-        Object.keys(query).length !== 0 && apiList[api].status === true
-      );
       try {
-        if (Object.keys(query).length > 0 && apiList[api].status === true) {
-          console.log('inside if ');
+        if (Object.keys(query).length > 0 && apiList[api].requested === true) {
           await axios.post(`/${api}`, query);
           const newStatus: ApiDetails = {
             api,
@@ -110,10 +105,9 @@ const Popup: React.FC = () => {
         console.log('use effect clean up');
       };
     };
-    console.log(query, api, apiList, 'query, api, apiList');
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, api]);
+  }, [api, query]);
 
   const setRequested = (): void => {
     const newStatus: ApiDetails = {
@@ -124,14 +118,12 @@ const Popup: React.FC = () => {
     const apiListClone: ApiList = Object.create(apiList);
     apiListClone[api] = newStatus;
     setApiList(apiListClone);
-    console.log('tooglig status!!!!', apiList, api);
   };
 
   useEffect(() => {
     if (!isMount) {
       setRequested();
       parseUrl();
-      console.log('parse url called');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api]);
@@ -141,7 +133,6 @@ const Popup: React.FC = () => {
   };
 
   const openVsCode = (): void => {
-    console.log(API_LIST, 'openCScode');
     setApi(API_LIST.openVSCode.api);
   };
 
@@ -159,7 +150,7 @@ const Popup: React.FC = () => {
       <div className="container">
         <Button BtnTheme="green" BtnText=" git clone" BtnClickFxn={gitClone}>
           {apiList.gitClone.requested && apiList.gitClone.requested === true ? (
-            <Loader style={{marginRight: '1rem'}} />
+            <Loader className="spin" style={{marginRight: '1rem'}} />
           ) : null}
           {apiList.gitClone.status &&
           apiList.gitClone.status === SUCCESS_STATUS ? (
@@ -176,7 +167,7 @@ const Popup: React.FC = () => {
         >
           {apiList.openVSCode.requested &&
           apiList.openVSCode.requested === true ? (
-            <Loader style={{marginRight: '1rem'}} />
+            <Loader className="spin" style={{marginRight: '1rem'}} />
           ) : null}
           {apiList.openVSCode.status &&
           apiList.openVSCode.status === SUCCESS_STATUS ? (
@@ -189,13 +180,14 @@ const Popup: React.FC = () => {
 
         <Button BtnTheme="red" BtnText="git push" BtnClickFxn={gitPush}>
           {apiList.gitPush.requested && apiList.gitPush.requested === true ? (
-            <Loader style={{marginRight: '1rem'}} />
-          ) : (
+            <Loader className="spin" style={{marginRight: '1rem'}} />
+          ) : null}
+          {apiList.gitPush.requested === null ? (
             <ChevronDown
               style={{marginRight: '1rem'}}
               onClick={(): void => console.log('down click')}
             />
-          )}
+          ) : null}
           {apiList.gitPush.status &&
           apiList.gitPush.status === SUCCESS_STATUS ? (
             <Check style={{marginRight: '1rem'}} />

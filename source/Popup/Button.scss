@@ -2,67 +2,76 @@
 @import "../styles/reset";
 @import "../styles/variables";
 
-  
-  .vertical-sep  {
-    border-left: 1px solid #16222c;
-    height: 43px;
-    position: absolute;
-    right: 70px;
-  }
-  
-  .btn-reset {
-    flex: 1;
-    background: none;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      outline: inherit;
-  }
-  
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100% !important;
-    padding: 5px;
-    height: 41px;
-    border-radius: 6px;
-    font-size: 20px;
-    overflow: hidden;
-    font-family: "Roboto", sans-serif;
-    border-width: 0;
-    outline: none;
-    margin-bottom: 0.4em;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-    // background-color: $greenLight;
-    color: $white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+.vertical-sep {
+  border-left: 1px solid #16222c;
+  height: 43px;
+  position: absolute;
+  right: 70px;
+}
 
-  
+.btn-reset {
+  flex: 1;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  padding: 5px;
+  height: 41px;
+  border-radius: 6px;
+  font-size: 20px;
+  overflow: hidden;
+  font-family: "Roboto", sans-serif;
+  border-width: 0;
+  outline: none;
+  margin-bottom: 0.4em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  // background-color: $greenLight;
+  color: $white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 @mixin btn-theme($btn-color) {
-    background-color: $btn-color;
-  
-      &:hover {
-          background-color: darken($btn-color, 6%);
-      }
-      &:focus {
-          background-color: darken($btn-color, 6%);
-      }
+  background-color: $btn-color;
+
+  &:hover {
+    background-color: darken($btn-color, 6%);
   }
-  
-  .green {
-      @include btn-theme($greenLight);
+  &:focus {
+    background-color: darken($btn-color, 6%);
   }
-  
-  .orange {
-      @include btn-theme($orangeLight);
+}
+
+.green {
+  @include btn-theme($greenLight);
+}
+
+.orange {
+  @include btn-theme($orangeLight);
+}
+
+.red {
+  @include btn-theme($redLight);
+}
+
+.spin {
+  animation: spin 4s infinite linear;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .red {
-      @include btn-theme($redLight);
+  100% {
+    transform: rotate(360deg);
   }
-  
+}
