@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {browser, Tabs} from 'webextension-polyfill-ts';
 import axios from 'axios';
 import {Check, ChevronDown, X, Loader} from 'react-feather';
 import Button from './Button';
 import './styles.scss';
+import {useIsMount, getTabs, initReadOsInfo} from '../utils';
 
 function openWebPage(url: string): Promise<Tabs.Tab> {
   return browser.tabs.create({url});
@@ -31,21 +32,6 @@ const API_LIST: ApiList = {
   gitPush: {api: 'gitPush', status: SUCCESS_STATUS, requested: REQUESTED},
 };
 
-const useIsMount = (): boolean => {
-  const isMountRef = useRef(true);
-  useEffect(() => {
-    isMountRef.current = false;
-  }, []);
-  return isMountRef.current;
-};
-
-const getTabs = (): Promise<Tabs.Tab[]> => {
-  return browser.tabs.query({
-    currentWindow: true,
-    active: true,
-  });
-};
-
 const Popup: React.FC = () => {
   const isMount = useIsMount();
 
@@ -55,6 +41,8 @@ const Popup: React.FC = () => {
 
   const parseUrl = async (): Promise<string | undefined> => {
     const tabs = await getTabs();
+    const {rootPath} = await initReadOsInfo();
+
     const tabURL = tabs[0].url;
     if (tabURL !== undefined) {
       const urlParts = tabURL.split('/');
@@ -68,6 +56,7 @@ const Popup: React.FC = () => {
         RepoURL: tabURL,
         GitUserName: gitUserName,
         ProjectName: projectName,
+        RootPath: rootPath,
       };
       setQuery(queryObj);
       // console.log('setQuery(queryObj)');
