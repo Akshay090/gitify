@@ -46,6 +46,21 @@ export async function initReadOsInfo(): Promise<{
   return {os, rootPath}; // "win" "mac" "linux"
 }
 
+/**
+ * Usage :
+ *
+ *  ```
+ *    const isMount = useIsMount();
+ *
+ *    useEffect(() => {
+ *      if (isMount) {
+ *       console.log('First Render');
+ *     } else {
+ *        console.log('Subsequent Render');
+ *      }
+ *    });
+ *  ```
+ */
 export const useIsMount = (): boolean => {
   const isMountRef = useRef(true);
   useEffect(() => {

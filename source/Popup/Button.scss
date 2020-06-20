@@ -68,6 +68,10 @@
   @include btn-theme(#50555e);
 }
 
+.disabled {
+  @include btn-theme(grey);
+}
+
 .spin {
   animation: spin 4s infinite linear;
 }
