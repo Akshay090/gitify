@@ -84,7 +84,6 @@ const Popup: React.FC = () => {
       try {
         if (Object.keys(query).length > 0) {
           const res = await axios.post(`/repoExists`, query);
-          console.log(res, 'repoExists res');
           const {Exist}: {Exist: boolean} = res.data;
           if (Exist) {
             console.log('repo exist');
@@ -125,8 +124,6 @@ const Popup: React.FC = () => {
   useEffectDebugger(
     () => {
       const fetchData = async (): Promise<Function> => {
-        // console.log('api', api, 'apiList', apiList, 'query', query);
-        // console.log('apiList[api].status === null', apiList[api].status === null);
         try {
           if (
             api !== '' &&
@@ -135,11 +132,6 @@ const Popup: React.FC = () => {
             apiList[api].status === null &&
             apiList[api].requested === true
           ) {
-            console.log('api', api, 'apiList', apiList, 'query', query);
-            console.log(
-              'apiList[api].status === null',
-              apiList[api].status === null
-            );
             await axios.post(`/${api}`, query);
 
             const newApiState = {
@@ -183,7 +175,6 @@ const Popup: React.FC = () => {
   );
 
   const setRequested = useCallback(() => {
-    console.log('setRequested in callback hook');
     const newApiState = {
       [api]: {
         api,
@@ -203,13 +194,6 @@ const Popup: React.FC = () => {
       setRequested();
     }
   }, [api, setRequested]);
-
-  // useEffect(() => {
-  //   if (!isMount) {
-
-  //     console.log('called parseURL');
-  //   }
-  // }, [isMount]);
 
   const gitClone = (): void => {
     console.log('git clone btn click');
