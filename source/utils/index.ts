@@ -46,6 +46,13 @@ export async function initReadOsInfo(): Promise<{
   return {os, rootPath}; // "win" "mac" "linux"
 }
 
+export const getTabs = (): Promise<Tabs.Tab[]> => {
+  return browser.tabs.query({
+    currentWindow: true,
+    active: true,
+  });
+};
+
 /**
  * Usage :
  *
@@ -69,9 +76,44 @@ export const useIsMount = (): boolean => {
   return isMountRef.current;
 };
 
-export const getTabs = (): Promise<Tabs.Tab[]> => {
-  return browser.tabs.query({
-    currentWindow: true,
-    active: true,
+// https://stackoverflow.com/a/59843241
+const usePrevious = (
+  value: React.DependencyList,
+  initialValue: React.DependencyList
+): React.DependencyList => {
+  const ref = useRef(initialValue);
+  useEffect(() => {
+    ref.current = value;
   });
+  return ref.current;
+};
+
+export const useEffectDebugger = (
+  effectHook: React.EffectCallback,
+  dependencies: React.DependencyList,
+  dependencyNames: string[] = []
+): {} | void => {
+  const previousDeps = usePrevious(dependencies, []);
+
+  const changedDeps = dependencies.reduce((accum, dependency, index) => {
+    if (dependency !== previousDeps[index]) {
+      const keyName = dependencyNames[index] || index;
+      return {
+        ...accum,
+        [keyName]: {
+          before: previousDeps[index],
+          after: dependency,
+        },
+      };
+    }
+
+    return accum;
+  }, {});
+
+  if (Object.keys(changedDeps).length) {
+    console.log('[use-effect-debugger] ', changedDeps);
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(effectHook, dependencies);
 };

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {browser, Tabs} from 'webextension-polyfill-ts';
 import axios from 'axios';
 import {Check, ChevronDown, X, Loader} from 'react-feather';
 import Button from './Button';
 import './styles.scss';
-import {useIsMount, getTabs, initReadOsInfo} from '../utils';
+import {useIsMount, getTabs, initReadOsInfo, useEffectDebugger} from '../utils';
 
 function openWebPage(url: string): Promise<Tabs.Tab> {
   return browser.tabs.create({url});
@@ -72,7 +72,15 @@ const Popup: React.FC = () => {
   };
 
   useEffect(() => {
+    if (isMount) {
+      parseUrl();
+      console.log('parseUrl called isMount');
+    }
+  }, [isMount]);
+
+  useEffect(() => {
     const checkServerDirExist = async (): Promise<void> => {
+      console.log(query, 'query', 'in checkServerDirExist');
       try {
         if (Object.keys(query).length > 0) {
           const res = await axios.post(`/repoExists`, query);
@@ -82,14 +90,17 @@ const Popup: React.FC = () => {
             console.log('repo exist');
             setRepoStatus(true);
 
-            const newStatus: ApiDetails = {
-              api: API_LIST.gitClone.api,
-              status: true,
-              requested: false,
+            const newApiState = {
+              gitClone: {
+                api: API_LIST.gitClone.api,
+                status: true,
+                requested: null,
+              },
             };
-            const apiListClone: ApiList = Object.create(apiList);
-            apiListClone.gitClone = newStatus;
-            setApiList(apiListClone);
+
+            setApiList((apiListState) => {
+              return {...apiListState, ...newApiState};
+            });
           } else {
             console.log('repo dont exist');
             setRepoStatus(false);
@@ -100,77 +111,108 @@ const Popup: React.FC = () => {
           console.log('server not running');
           setServerExist(false);
         }
-        setQuery({});
       }
     };
 
     checkServerDirExist();
-  }, [query, apiList]);
+  }, [query]);
 
-  useEffect(() => {
-    if (isMount) {
-      parseUrl();
-    }
-  }, [isMount]);
+  // useEffect(() => {
+  //   setQuery({});
+  //   console.log('apiList change clear query');
+  // }, [apiList]);
 
-  useEffect(() => {
-    const fetchData = async (): Promise<Function> => {
-      try {
-        if (
-          Object.keys(query).length > 0 &&
-          apiList[api] &&
-          apiList[api].requested === true
-        ) {
-          await axios.post(`/${api}`, query);
-          const newStatus: ApiDetails = {
-            api,
-            status: true,
-            requested: false,
+  useEffectDebugger(
+    () => {
+      const fetchData = async (): Promise<Function> => {
+        // console.log('api', api, 'apiList', apiList, 'query', query);
+        // console.log('apiList[api].status === null', apiList[api].status === null);
+        try {
+          if (
+            api !== '' &&
+            Object.keys(query).length > 0 &&
+            apiList[api] &&
+            apiList[api].status === null &&
+            apiList[api].requested === true
+          ) {
+            console.log('api', api, 'apiList', apiList, 'query', query);
+            console.log(
+              'apiList[api].status === null',
+              apiList[api].status === null
+            );
+            await axios.post(`/${api}`, query);
+
+            const newApiState = {
+              [api]: {
+                api,
+                status: true,
+                requested: false,
+              },
+            };
+            console.log(newApiState, 'api success');
+            setApiList((apiListState) => {
+              return {...apiListState, ...newApiState};
+            });
+
+            setRepoStatus(true);
+          }
+        } catch (err) {
+          console.log('error', err);
+
+          const newApiState = {
+            [api]: {
+              api,
+              status: false,
+              requested: false,
+            },
           };
-          const apiListClone: ApiList = Object.create(apiList);
-          apiListClone[api] = newStatus;
-          setApiList(apiListClone);
+          console.log(newApiState, 'api failed');
+          setApiList((apiListState) => {
+            return {...apiListState, ...newApiState};
+          });
         }
-      } catch (err) {
-        console.log('error', err);
-        const newStatus: ApiDetails = {
-          api,
-          status: false,
-          requested: false,
+
+        return (): void => {
+          console.log('use effect clean up');
         };
-        const apiListClone: ApiList = Object.create(apiList);
-        apiListClone[api] = newStatus;
-        setApiList(apiListClone);
-      }
-
-      return (): void => {
-        console.log('use effect clean up');
       };
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api, query]);
+      fetchData();
+    },
+    [query, api, apiList],
+    ['query', 'api', 'apiList']
+  );
 
-  const setRequested = (): void => {
-    const newStatus: ApiDetails = {
-      api,
-      status: null,
-      requested: true,
+  const setRequested = useCallback(() => {
+    console.log('setRequested in callback hook');
+    const newApiState = {
+      [api]: {
+        api,
+        status: null,
+        requested: true,
+      },
     };
-    const apiListClone: ApiList = Object.create(apiList);
-    apiListClone[api] = newStatus;
-    setApiList(apiListClone);
-  };
-
-  useEffect(() => {
-    if (!isMount) {
-      setRequested();
-      parseUrl();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setApiList((apiListState) => {
+      return {...apiListState, ...newApiState};
+    });
+    // parseUrl();
   }, [api]);
 
+  useEffect(() => {
+    console.log('use Effect api', api);
+    if (api !== '') {
+      setRequested();
+    }
+  }, [api, setRequested]);
+
+  // useEffect(() => {
+  //   if (!isMount) {
+
+  //     console.log('called parseURL');
+  //   }
+  // }, [isMount]);
+
   const gitClone = (): void => {
+    console.log('git clone btn click');
     setApi(API_LIST.gitClone.api);
   };
 
