@@ -68,6 +68,10 @@
   @include btn-theme(#50555e);
 }
 
+.blue {
+  @include btn-theme(#0d8e8b);
+}
+
 .disabled {
   @include btn-theme(grey);
 }

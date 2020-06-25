@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {browser, Tabs} from 'webextension-polyfill-ts';
 import axios from 'axios';
-import {Check, ChevronDown, X, Loader} from 'react-feather';
+import {Check, ChevronDown, X, Loader, ChevronUp} from 'react-feather';
 import Button from './Button';
 import './styles.scss';
 import {useIsMount, getTabs, initReadOsInfo, useEffectDebugger} from '../utils';
@@ -37,6 +37,7 @@ const API_LIST: ApiList = {
   gitClone: {api: 'gitClone', status: SUCCESS_STATUS, requested: REQUESTED},
   openVSCode: {api: 'openVSCode', status: SUCCESS_STATUS, requested: REQUESTED},
   gitPush: {api: 'gitPush', status: SUCCESS_STATUS, requested: REQUESTED},
+  gitPull: {api: 'gitPull', status: SUCCESS_STATUS, requested: REQUESTED},
 };
 
 const Popup: React.FC = () => {
@@ -47,6 +48,8 @@ const Popup: React.FC = () => {
   const [query, setQuery] = useState({});
   const [api, setApi] = useState('');
   const [apiList, setApiList] = useState(API_LIST);
+  const [commitMsg, setCommitMsg] = useState('commit from gitify');
+  const [msgBox, setMsgBox] = useState(false);
 
   const parseUrl = async (): Promise<void> => {
     const tabs = await getTabs();
@@ -66,6 +69,7 @@ const Popup: React.FC = () => {
         GitUserName: gitUserName,
         ProjectName: projectName,
         RootPath: rootPath,
+        GitMsg: 'commit from gitify',
       };
       setQuery(queryObj);
     }
@@ -115,11 +119,6 @@ const Popup: React.FC = () => {
 
     checkServerDirExist();
   }, [query]);
-
-  // useEffect(() => {
-  //   setQuery({});
-  //   console.log('apiList change clear query');
-  // }, [apiList]);
 
   useEffectDebugger(
     () => {
@@ -185,7 +184,6 @@ const Popup: React.FC = () => {
     setApiList((apiListState) => {
       return {...apiListState, ...newApiState};
     });
-    // parseUrl();
   }, [api]);
 
   useEffect(() => {
@@ -206,6 +204,16 @@ const Popup: React.FC = () => {
 
   const gitPush = (): void => {
     setApi(API_LIST.gitPush.api);
+    const commitObj = {
+      GitMsg: commitMsg,
+    };
+    setQuery((prev) => {
+      return {...prev, ...commitObj};
+    });
+  };
+
+  const gitPull = (): void => {
+    setApi(API_LIST.gitPull.api);
   };
 
   return (
@@ -272,16 +280,49 @@ const Popup: React.FC = () => {
           {apiList.gitPush.requested && apiList.gitPush.requested === true ? (
             <Loader className="spin" style={{marginRight: '1rem'}} />
           ) : null}
-          {apiList.gitPush.requested === null ? (
+          {apiList.gitPush.requested === null && msgBox === false ? (
             <ChevronDown
               style={{marginRight: '1rem'}}
-              onClick={(): void => console.log('down click')}
+              onClick={(): void => setMsgBox(true)}
+            />
+          ) : null}
+          {apiList.gitPush.requested === null && msgBox === true ? (
+            <ChevronUp
+              style={{marginRight: '1rem'}}
+              onClick={(): void => setMsgBox(false)}
             />
           ) : null}
           {apiList.gitPush.status && apiList.gitPush.status === true ? (
             <Check style={{marginRight: '1rem'}} />
           ) : null}
           {apiList.gitPush.status === false ? (
+            <X style={{marginRight: '1rem'}} color="Red" />
+          ) : null}
+        </Button>
+
+        {msgBox === true && (
+          <input
+            name="rootFL"
+            placeholder={commitMsg}
+            value={commitMsg}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+              setCommitMsg(e.target.value);
+            }}
+          />
+        )}
+
+        <Button
+          BtnTheme={repoStatus ? 'blue' : 'disabled'}
+          BtnText="gitPull"
+          BtnClickFxn={gitPull}
+        >
+          {apiList.gitPull.requested && apiList.gitPull.requested === true ? (
+            <Loader className="spin" style={{marginRight: '1rem'}} />
+          ) : null}
+          {apiList.gitPull.status && apiList.gitPull.status === true ? (
+            <Check style={{marginRight: '1rem'}} />
+          ) : null}
+          {apiList.gitPull.status === false ? (
             <X style={{marginRight: '1rem'}} color="Red" />
           ) : null}
         </Button>
