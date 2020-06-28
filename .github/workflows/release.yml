@@ -19,10 +19,11 @@ jobs:
     - run: npm run build
     
     - name: Zip Folders
+      working-directory: ./extension 
       run: | 
-          zip -r chrome.zip ./extension/chrome
-          zip -r firefox.zip ./extension/firefox
-          zip -r opera.zip ./extension/opera
+          zip -r chrome.zip chrome
+          zip -r firefox.zip firefox
+          zip -r opera.zip opera
     
     - name: Release
       uses: docker://antonyurchenko/git-release:latest
@@ -35,6 +36,6 @@ jobs:
         ALLOW_TAG_PREFIX: "true"
       with:
         args: |
-            chrome.zip
-            firefox.zip
-            opera.zip
+            ./extension/chrome.zip
+            ./extension/firefox.zip
+            ./extension/opera.zip

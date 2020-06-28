@@ -14,7 +14,7 @@
 ## 🤔 How it works
 
 - The browser extension interacts with a [server](https://github.com/Akshay090/gitifyServer) running locally to execute git commands for you.
-- The [server](https://github.com/Akshay090/gitifyServer) works only on windows currently. 
+- The [gitifyServer](https://github.com/Akshay090/gitifyServer) works only on windows currently. 
 
 ## Browser Support
 
@@ -63,7 +63,7 @@ Contributions, issues and feature requests are welcome!
 
 Feel free to check [gitify issues page](https://github.com/Akshay090/gitify/issues) and [gitifyServer issues page.](https://github.com/Akshay090/gitifyServer/issues).
 
-To build locally check out [Dev.md](https://github.com/Akshay090/gitify/Dev.md).
+To run and build locally check out [Dev.md](https://github.com/Akshay090/gitify/blob/master/Dev.md).
 
 ## 💪 Built with 
 
