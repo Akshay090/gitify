@@ -6,17 +6,15 @@
 <hr />
 
 
-## Features
+## 🌟 Features
 
-- Cross Browser Support (Web-Extensions API)
-- Browser Tailored Manifest generation
-- Automatic build on code changes
-- Auto packs browser specific build files
-- SASS styling
-- TypeScript by default
-- ES6 modules support
-- React UI Library by default
-- Smart reload
+- Gitify makes working with Git fast ⚡ and easy.
+- Execute basic git commands from browser extension.
+
+## 🤔 How it works
+
+- The browser extension interacts with a [server](https://github.com/Akshay090/gitifyServer) running locally to execute git commands for you.
+- The [server](https://github.com/Akshay090/gitifyServer) works only on windows currently. 
 
 ## Browser Support
 
@@ -25,35 +23,15 @@
 | 49 & later ✔                                                                                  | 52 & later ✔                                                                                     | 36 & later ✔                                                                               | 79 & later ✔                                                                            | Latest ✔                                                                                      | Latest ✔                                                                                   | Latest ✔                                                                                         |
 
 
-## 🚀 Quick Start
+## 📽 Demo
 
-Ensure you have
+> Coming Soon
 
-- [Node.js](https://nodejs.org) 10 or later installed
-- [Yarn](https://yarnpkg.com) v1 or v2 installed
+## 🚀 Get Started 
 
-Then run the following:
+- **Download extension for your browsere**
 
-- `yarn install` to install dependencies.
-- `yarn run dev:chrome` to start the development server for chrome extension
-- `yarn run dev:firefox` to start the development server for firefox addon
-- `yarn run dev:opera` to start the development server for opera extension
-- `yarn run build:chrome` to build chrome extension
-- `yarn run build:firefox` to build firefox addon
-- `yarn run build:opera` to build opera extension
-- `yarn run build` builds and packs extensions all at once to extension/ directory
-
-### Development
-
-- `yarn install` to install dependencies.
-- To watch file changes in development
-
-  - Chrome
-    - `yarn run dev:chrome`
-  - Firefox
-    - `yarn run dev:firefox`
-  - Opera
-    - `yarn run dev:opera`
+  - Download it from [release page.](https://github.com/Akshay090/gitify/releases)
 
 - **Load extension in browser**
 
@@ -62,71 +40,35 @@ Then run the following:
   - Go to the browser address bar and type `chrome://extensions`
   - Check the `Developer Mode` button to enable it.
   - Click on the `Load Unpacked Extension…` button.
-  - Select directory Project Root -> extension -> chrome.
+  - Select directory chrome.
 
 - ### Firefox
 
   - Load the Add-on via `about:debugging` as temporary Add-on.
-  - Choose the `manifest.json` file in the extracted directory
+  - Choose the `manifest.json` file in the directory
 
 - ### Opera
 
   - Load the extension via `opera:extensions`
-  - Check the `Developer Mode` and load as unpacked from extension’s extracted directory.
+  - Check the `Developer Mode` and load as unpacked from extension’s directory.
 
-### Production
+- **Download the gitify Server**
 
-- `yarn run build` builds the extension for all the browsers to `extension/BROWSER` directory respectively.
+    - Go to gitifyServer [release page](https://github.com/Akshay090/gitifyServer/releases) and download the exe.
+    - Your browser or Windows Defender may say it's harmful, but trust me it's not 😄
 
-Note: By default the `manifest.json` is set with version `0.0.0`. The webpack loader will update the version in the build with that of the `package.json` version. In order to release a new version, update version in `package.json` and run script.
+## 🤝 Contributing
 
-### Generating browser specific manifest.json
+Contributions, issues and feature requests are welcome!
 
-Update `source/manifest.json` file with browser vendor prefixed manifest keys
+Feel free to check [gitify issues page](https://github.com/Akshay090/gitify/issues) and [gitifyServer issues page.](https://github.com/Akshay090/gitifyServer/issues).
 
-```js
-{
-  "__chrome__name": "SuperChrome",
-  "__firefox__name": "SuperFox",
-  "__edge__name": "SuperEdge",
-  "__opera__name": "SuperOpera"
-}
-```
+To build locally check out [Dev.md](https://github.com/Akshay090/gitify/Dev.md).
 
-if the vendor is `chrome` this compiles to:
+## 💪 Built with 
 
-```js
-{
-  "name": "SuperChrome",
-}
-```
+  - [web-extension-starter](https://github.com/abhijithvijayan/web-extension-starter)
 
----
-
-Add keys to multiple vendors by separating them with | in the prefix
-
-```
-{
-  __chrome|opera__name: "SuperBlink"
-}
-```
-
-if the vendor is `chrome` or `opera`, this compiles to:
-
-```
-{
-  "name": "SuperBlink"
-}
-```
-
-## Bugs
-
-Please file an issue [here](https://github.com/Akshay090/gitify/issues/new) for bugs, missing documentation, or unexpected behavior.
-
-### Linting & TypeScript Config
-
-- Shared Eslint & Prettier Configuration - [`@abhijithvijayan/eslint-config`](https://www.npmjs.com/package/@abhijithvijayan/eslint-config)
-- Shared TypeScript Configuration - [`@abhijithvijayan/tsconfig`](https://www.npmjs.com/package/@abhijithvijayan/tsconfig)
 
 ## License
 

@@ -1,31 +1,36 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {browser, Tabs} from 'webextension-polyfill-ts';
+import {Tabs} from 'webextension-polyfill-ts';
 import axios from 'axios';
 import {Check, ChevronDown, X, Loader, ChevronUp} from 'react-feather';
 import Button from './Button';
 import './styles.scss';
-import {useIsMount, getTabs, initReadOsInfo, useEffectDebugger} from '../utils';
-
-function openWebPage(url: string): Promise<Tabs.Tab> {
-  return browser.tabs.create({url});
-}
+import {
+  openWebPage,
+  useIsMount,
+  getTabs,
+  initReadOsInfo,
+  useEffectDebugger,
+} from '../utils';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 
 type TrueFalseNull = true | false | null;
-// const ERROR_STATUS = 'ERROR_STATUS';
+
 const REQUESTED: TrueFalseNull = null;
 const SUCCESS_STATUS: TrueFalseNull = null;
+
 interface ApiDetails {
   api: string;
   status: TrueFalseNull;
   requested: TrueFalseNull;
 }
+
 interface ApiList {
   [gitClone: string]: ApiDetails;
   openVSCode: ApiDetails;
   gitPush: ApiDetails;
 }
+
 interface ReqParams {
   [Domain: string]: string;
   RepoURL: string;
@@ -61,11 +66,11 @@ const Popup: React.FC = () => {
       const domain = urlParts[2];
       const gitUserName = urlParts[3];
       const projectName = urlParts[4];
-      // console.log(gitUserName, projectName);
+      const repoUrl = `https://${domain}/${gitUserName}/${projectName}`;
 
       const queryObj: ReqParams = {
         Domain: domain,
-        RepoURL: tabURL,
+        RepoURL: repoUrl,
         GitUserName: gitUserName,
         ProjectName: projectName,
         RootPath: rootPath,

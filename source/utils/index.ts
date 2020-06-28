@@ -1,6 +1,10 @@
 import {browser, Runtime, Storage, Tabs} from 'webextension-polyfill-ts';
 import {useRef, useEffect} from 'react';
 
+export function openWebPage(url: string): Promise<Tabs.Tab> {
+  return browser.tabs.create({url});
+}
+
 export function platfromInfo(): Promise<Runtime.PlatformInfo> {
   return browser.runtime.getPlatformInfo();
 }
@@ -34,11 +38,11 @@ export async function initReadOsInfo(): Promise<{
   console.log(rootPath);
   if (rootPath === undefined) {
     if (os === 'win') {
-      rootPath = '%UserProfile%\\gitify';
+      rootPath = 'Set a folder path for gitify';
     } else if (os === 'linux') {
-      rootPath = 'linux Root Path';
+      rootPath = 'Gitify Currently dont work in linux';
     } else if (os === 'mac') {
-      rootPath = 'mac Root Path';
+      rootPath = 'Gitify Currently dont work in mac';
     }
     await saveStorage({rootPath});
   }
