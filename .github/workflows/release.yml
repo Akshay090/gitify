@@ -1,0 +1,40 @@
+name: Create Releases
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  build:
+    name: Build extensions
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm install
+    - run: npm run build
+    
+    - name: Zip Folders
+      run: | 
+          zip -r chrome.zip ./extension/chrome
+          zip -r firefox.zip ./extension/firefox
+          zip -r opera.zip ./extension/opera
+    
+    - name: Release
+      uses: docker://antonyurchenko/git-release:latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DRAFT_RELEASE: "false"
+        PRE_RELEASE: "false"
+        CHANGELOG_FILE: "CHANGELOG.md"
+        ALLOW_EMPTY_CHANGELOG: "false"
+        ALLOW_TAG_PREFIX: "true"
+      with:
+        args: |
+            chrome.zip
+            firefox.zip
+            opera.zip
