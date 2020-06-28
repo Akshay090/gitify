@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "GitifyWeb",
+  "name": "Gitify",
   "version": "0.0.0",
 
   "icons": {
@@ -10,14 +10,15 @@
     "128": "assets/icons/favicon-128.png"
   },
   "description": "Work with Git from browser",
-  "homepage_url": "https://github.com",
-  "short_name": "GitifyWeb",
+  "homepage_url": "https://gitify.launchaco.com",
+  "short_name": "Gitify",
 
   "permissions": [
-    "activeTab",
+    "tabs",
     "storage",
-    "http://*/*",
-    "https://*/*"
+    "https://github.com/*/*",
+    "https://gitlab.com/*/*",
+    "https://bitbucket.org/*/*"
   ],
 
   "content_security_policy": "script-src 'self'; object-src 'self'",
@@ -57,19 +58,18 @@
   },
 
   "background": {
-    "scripts": [
-      "js/background.bundle.js"
-    ],
+    "scripts": ["js/background.bundle.js"],
     "__chrome|opera__persistent": false
   },
 
-  "content_scripts": [{
-    "matches": [
-      "http://*/*",
-      "https://*/*"
-    ],
-    "js": [
-      "js/contentScript.bundle.js"
-    ]
-  }]
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/*",
+        "https://gitlab.com/*/*",
+        "https://bitbucket.org/*/*"
+      ],
+      "js": ["js/contentScript.bundle.js"]
+    }
+  ]
 }

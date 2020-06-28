@@ -224,10 +224,10 @@ const Popup: React.FC = () => {
   return (
     <section id="popup">
       <div className="heading">
-        <img src="assets/icons/favicon-32.png" alt="" />
+        <img src="assets/icons/favicon-32.png" alt="logo" />
         <img
           src="assets/icons/settings.svg"
-          alt=""
+          alt="settings"
           className="options_icon"
           role="presentation"
           onClick={(): Promise<Tabs.Tab> => {

@@ -16,6 +16,10 @@ body {
   .heading {
     display: flex;
     justify-content: space-between;
+
+    img {
+      width: 2rem;
+    }
   }
 
   .message {
