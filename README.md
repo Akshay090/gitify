@@ -25,7 +25,7 @@
 
 ## 📽 Demo
 
-[![Gitify Demo](https://raw.githubusercontent.com/Akshay090/gitify/master/.github/images/demo.jpg)](https://vimeo.com/435355152 "Gitify Demo")
+[![Gitify Demo](https://raw.githubusercontent.com/Akshay090/gitify/master/.github/images/demo.jpg)](https://player.vimeo.com/video/435355152 "Gitify Demo")
 
 ## 🚀 Get Started 
 
