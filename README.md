@@ -35,22 +35,22 @@
 
 - **Load extension in browser**
 
-- ### Chrome
+  - ### Chrome
 
-  - Go to the browser address bar and type `chrome://extensions`
-  - Check the `Developer Mode` button to enable it.
-  - Click on the `Load Unpacked Extension…` button.
-  - Select directory chrome.
+    - Go to the browser address bar and type `chrome://extensions`
+    - Check the `Developer Mode` button to enable it.
+    - Click on the `Load Unpacked Extension…` button.
+    - Select directory chrome.
 
-- ### Firefox
+  - ### Firefox
 
-  - Load the Add-on via `about:debugging` as temporary Add-on.
-  - Choose the `manifest.json` file in the directory
+    - Load the Add-on via `about:debugging` as temporary Add-on.
+    - Choose the `manifest.json` file in the directory
 
-- ### Opera
+  - ### Opera
 
-  - Load the extension via `opera:extensions`
-  - Check the `Developer Mode` and load as unpacked from extension’s directory.
+    - Load the extension via `opera:extensions`
+    - Check the `Developer Mode` and load as unpacked from extension’s directory.
 
 - **Download the gitify Server**
 
@@ -61,13 +61,15 @@
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check [gitify issues page](https://github.com/Akshay090/gitify/issues) and [gitifyServer issues page.](https://github.com/Akshay090/gitifyServer/issues).
+Feel free to check [gitify issues page](https://github.com/Akshay090/gitify/issues) and [gitifyServer issues page](https://github.com/Akshay090/gitifyServer/issues).
 
-To run and build locally check out [Dev.md](https://github.com/Akshay090/gitify/blob/master/Dev.md).
+## 🛠 To build locally 
+
+  - **Check out [Dev.md](https://github.com/Akshay090/gitify/blob/master/Dev.md).**
 
 ## 💪 Built with 
 
-  - [web-extension-starter](https://github.com/abhijithvijayan/web-extension-starter)
+  - **[web-extension-starter](https://github.com/abhijithvijayan/web-extension-starter)**
 
 
 ## License

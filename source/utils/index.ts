@@ -38,7 +38,7 @@ export async function initReadOsInfo(): Promise<{
   console.log(rootPath);
   if (rootPath === undefined) {
     if (os === 'win') {
-      rootPath = 'Set a folder path for gitify';
+      rootPath = 'C:\\gitify';
     } else if (os === 'linux') {
       rootPath = 'Gitify Currently dont work in linux';
     } else if (os === 'mac') {
