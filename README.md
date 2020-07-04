@@ -56,6 +56,7 @@
 
     - Go to gitifyServer [release page](https://github.com/Akshay090/gitifyServer/releases) and download the exe.
     - Your browser or Windows Defender may say it's harmful, but trust me it's not 😄
+    - To auto start gitifyServer when Windows boots up, place shortcut of the exe at : ```C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup```
 
 ## 🤝 Contributing
 
