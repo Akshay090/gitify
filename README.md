@@ -25,7 +25,7 @@
 
 ## 📽 Demo
 
-> Coming Soon
+[![Gitify Demo](https://github.com/Akshay090/gitify/blob/a2df09f9adf6aaf732db7cc63f1670448fe717fc/.github/images/demo.jpg)](https://vimeo.com/435355152 "Gitify Demo")
 
 ## 🚀 Get Started 
 
